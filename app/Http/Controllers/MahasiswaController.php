@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MahasiswaModel as Mahasiswa; // memanggil model mahasiswa untuk digunakan eloquent;
+use DB;
 
 class MahasiswaController extends Controller
 {
@@ -42,7 +43,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('form_mahasiswa');
     }
 
     /**
@@ -53,7 +54,13 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('mahasiswa')->insert([
+            "nama" => $request->nama,
+            "jurusan" => $request->jurusan,
+            "angkatan" => $request->angkatan
+        ]);
+
+        return redirect()->route('mahasiswa.index');
     }
 
     /**
@@ -75,7 +82,11 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mahasiswa = DB::table('mahasiswa')->where('id', $id)->first();
+
+        return view('form_edit_mahasiswa', [
+            'mahasiswa' => $mahasiswa,
+        ]);
     }
 
     /**
@@ -87,7 +98,13 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('mahasiswa')->where('id', $id)->update([
+            "nama" => $request->nama,
+            "jurusan" => $request->jurusan,
+            "angkatan" => $request->angkatan
+        ]);
+
+        return redirect()->route('mahasiswa.index');
     }
 
     /**
@@ -99,9 +116,5 @@ class MahasiswaController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function redirectHere() {
-        return redirect('/mahasiswa');
     }
 }
