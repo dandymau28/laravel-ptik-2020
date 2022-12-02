@@ -115,6 +115,20 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = DB::table('mahasiswa')->where('id', $id)->first();
+
+        if(empty($user)) {
+            return redirect()->route('mahasiswa.index')->withErrors([
+                'not_found' => 'Data mahasiswa tidak ditemukan'
+            ]);
+        }
+
+        DB::table('mahasiswa')->where('id', $id)->delete();
+
+        return redirect()->route('mahasiswa.index');
+
+        // Check mahasiswa by id
+        // kalo ada, hapus
+        //redirect -> index
     }
 }

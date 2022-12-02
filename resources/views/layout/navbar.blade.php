@@ -11,4 +11,8 @@
             </li>
         </ul>
     </div>
+    <div class="float-right">
+        {{ Auth::user()->name }}
+        <a href="{{ route('auth.logout') }}" class="btn btn-warning ml-2">Logout</a>
+    </div>
 </nav>
